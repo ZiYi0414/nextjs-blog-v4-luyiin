@@ -30,6 +30,10 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           {/* <script dangerouslySetInnerHTML={MyDocument.getAnalyticsTag()} /> */}
+          <link
+            rel="stylesheet"
+            href="https://fonts.googlefonts.cn/css?family=Comfortaa"
+          ></link>
         </Head>
         <body>
           <Main />

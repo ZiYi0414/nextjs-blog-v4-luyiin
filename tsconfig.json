@@ -21,6 +21,6 @@
       "@/*": ["src/*"],
     },
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/lib/dateToChinese.js"],
   "exclude": ["node_modules"]
 }

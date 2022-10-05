@@ -1,0 +1,29 @@
+.title {
+  display: block;
+  position: relative;
+  height: 8em;
+  width: 100%;
+}
+.title::before {
+  content: attr(data-date);
+  position: absolute;
+  left: -3rem;
+  color: gray;
+  opacity: 0.1;
+  font-size: 8em;
+  font-weight: bold;
+  pointer-events: none;
+}
+.blog_card {
+  font-family: 'Merriweather', 'Georgia', serif;
+  cursor: pointer;
+  opacity: 0.8;
+  h2 {
+    margin-left: -1em;
+    font-size: 1.2em;
+    color: #d23669;
+  }
+}
+.blog_card:hover {
+  opacity: 1;
+}

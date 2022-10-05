@@ -1,0 +1,37 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "8620132",
+      "name": "sun",
+      "font_class": "sun",
+      "unicode": "e7ad",
+      "unicode_decimal": 59309
+    },
+    {
+      "icon_id": "8953060",
+      "name": "moon",
+      "font_class": "moon",
+      "unicode": "e821",
+      "unicode_decimal": 59425
+    },
+    {
+      "icon_id": "11249819",
+      "name": "rss",
+      "font_class": "rss",
+      "unicode": "e854",
+      "unicode_decimal": 59476
+    },
+    {
+      "icon_id": "19603138",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "e680",
+      "unicode_decimal": 59008
+    }
+  ]
+}
