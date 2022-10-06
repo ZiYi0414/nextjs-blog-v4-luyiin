@@ -6,7 +6,7 @@ import { LangContext, UPDATE_LANG } from 'context/LangContext';
 
 export default function IconGroup() {
   const { theme, setTheme } = useTheme();
-  const { lang, dispatch } = useContext(LangContext);
+  const { lang, dispatch } = useContext<any>(LangContext);
   const handleChangeLang = () => {
     dispatch({ type: UPDATE_LANG, lang: lang === 'en' ? 'zh' : 'en' });
   };

@@ -10,7 +10,7 @@ import { useContext } from 'react';
 
 const Home: NextPage = () => {
   const isLoaded = useLoaded();
-  const { lang } = useContext(LangContext);
+  const { lang } = useContext<any>(LangContext);
 
   return (
     <Layout>

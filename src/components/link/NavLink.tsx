@@ -4,7 +4,7 @@ import { LangContext } from 'context/LangContext';
 import classNames from 'classnames';
 
 export default function NavLink() {
-  const { lang } = useContext(LangContext);
+  const { lang } = useContext<any>(LangContext);
   return (
     <div className={classNames('flex', lang === 'zh' && 'writeText')}>
       <Link href="/">
