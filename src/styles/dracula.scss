@@ -21,11 +21,10 @@ http://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascr
 /* Scrollbars */
 
 :root {
-  --background: #282a36;
+  --code_bg: #282a36;
   --comment: #6272a4;
-  --foreground: #f8f8f2;
+  --code_fore: #f8f8f2;
   --selection: #44475a;
-
   --cyan: #8be9fd;
   --green: #50fa7b;
   --orange: #ffb86c;
@@ -153,7 +152,7 @@ div.code-toolbar > .toolbar button {
 div.code-toolbar > .toolbar a,
 div.code-toolbar > .toolbar button,
 div.code-toolbar > .toolbar span {
-  color: var(--foreground);
+  color: var(--code_fore);
   font-size: 0.8em;
   padding: 0.5em;
   background: var(--comment);
@@ -182,8 +181,8 @@ div.code-toolbar > .toolbar span:focus {
 
 code[class*='language-'],
 pre[class*='language-'] {
-  color: var(--foreground);
-  background: var(--background);
+  color: var(--code_fore);
+  background: var(--code_bg);
   text-shadow: none;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     'Liberation Mono', 'Courier New', monospace;
@@ -207,7 +206,7 @@ pre[class*='language-'] {
 /* Code blocks */
 
 pre[class*='language-'] {
-  background: var(--background);
+  background: var(--code_bg);
   border-radius: 0.5em;
   padding: 1em;
   margin: 0.5em 0;
@@ -217,7 +216,7 @@ pre[class*='language-'] {
 
 :not(pre) > code[class*='language-'],
 pre[class*='language-'] {
-  background: var(--background);
+  background: var(--code_bg);
 }
 
 /* Inline code */
@@ -270,7 +269,7 @@ pre[class*='language-'] {
 }
 
 .token.script {
-  color: var(--foreground);
+  color: var(--code_fore);
 }
 
 .token.bold {
@@ -356,7 +355,7 @@ pre[class*='language-'] {
 }
 
 .token.prolog {
-  color: var(--foreground);
+  color: var(--code_fore);
 }
 
 .token.property {
@@ -368,7 +367,7 @@ pre[class*='language-'] {
 }
 
 .token.punctuation {
-  color: var(--foreground);
+  color: var(--code_fore);
 }
 
 .language-css .token.punctuation {
@@ -377,7 +376,7 @@ pre[class*='language-'] {
 
 .language-html .token.punctuation,
 .language-markup .token.punctuation {
-  color: var(--foreground);
+  color: var(--code_fore);
 }
 
 .token.selector {
@@ -393,7 +392,7 @@ pre[class*='language-'] {
 }
 
 .language-css .token.rule:not(.atrule) {
-  color: var(--foreground);
+  color: var(--code_fore);
 }
 
 .token.string {
@@ -441,7 +440,7 @@ pre[class*='language-'] {
 }
 
 .token.dom {
-  color: var(--foreground);
+  color: var(--code_fore);
 }
 
 .code-line.highlight-line {

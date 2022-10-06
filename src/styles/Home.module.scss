@@ -1,9 +1,9 @@
 .prose {
-  font-family: 'Merriweather', 'Georgia', serif;
+  opacity: 0.8;
   h1 {
     margin-bottom: 2rem;
+    margin-right: 1rem;
     font-size: 2rem;
-    font-family: Comfortaa;
   }
   hr {
     margin-bottom: 1.25em;
@@ -11,4 +11,49 @@
   p {
     margin-bottom: 1.25em;
   }
+}
+.prose_zh {
+  text-align: right;
+  opacity: 0.8;
+  font-family: 'Merriweather', 'Georgia', serif;
+  h1 {
+    margin-bottom: 2rem;
+    margin-right: 1rem;
+    font-size: 2rem;
+  }
+  hr {
+    margin-bottom: 1.25em;
+  }
+  article {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+  p {
+    display: inline-block;
+    letter-spacing: 0.5ch;
+    writing-mode: tb-rl;
+    margin-bottom: 1.25em;
+  }
+  p:nth-child(2n) {
+    opacity: 0.2;
+  }
+}
+
+@keyframes fade-up-header {
+  0% {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mask_image {
+  position: fixed;
+  mask-image: radial-gradient(circle, transparent, black);
+  --webkit-mask-image: radial-gradient(circle, transparent, black);
 }
