@@ -34,6 +34,11 @@
     letter-spacing: 0.5ch;
     writing-mode: tb-rl;
     margin-bottom: 1.25em;
+    transition: all 0.35s;
+  }
+  p:hover {
+    transition: all 0.35s;
+    @apply dark:text-[#FFF];
   }
   p:nth-child(2n) {
     opacity: 0.2;

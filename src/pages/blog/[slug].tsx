@@ -43,10 +43,10 @@ export default function SingleBlogPage({
           <div className="pt-8" data-fade="1">
             <section className="article">
               <article className="mdx prose mx-auto mt-4 w-full ">
-                <span className="mt-0 block   pb-[0.2em] text-3xl font-normal leading-normal text-[#1f2d3d] dark:border-b-gray-600	dark:text-[#fff]	dark:opacity-90">
+                <span className="mt-0 block   pb-[0.2em] text-3xl font-normal leading-normal text-[#d23669] dark:border-b-gray-600 dark:opacity-90">
                   {frontmatter.title}
                 </span>
-                <div className="border-b-[1px] border-solid border-b-[#eee] my-4 flex justify-between">
+                <div className="border-b-[1px] border-solid border-b-[#eee] my-4 flex justify-between text-sm dark:opacity-40">
                   <span>记录于 {dateToChinese(frontmatter.publishedAt)}</span>
                   <span>{frontmatter.readingTime.text}</span>
                 </div>

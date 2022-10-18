@@ -1,9 +1,10 @@
-
 .prose p,
 li {
-  @apply dark:text-gray-400;
   margin-bottom: 1rem;
   line-height: 2;
+}
+.prose p{
+  @apply dark:text-[#e5e7eb]
 }
 
 .shadow {
@@ -70,7 +71,8 @@ li {
 }
 
 .mdx.prose :where(h1, h2, h3, h4) {
-  color: #1f2d3d;
+  color: #d23669;
+  font-weight: 900;
   scroll-margin-top: 100px;
   position: relative;
   display: block;
@@ -78,7 +80,6 @@ li {
   margin-right: 0.5rem;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
-  @apply dark:text-[#fff] dark:opacity-90;
 }
 
 .mdx.prose :where(h1, h2, h3, h4) > a {
@@ -86,7 +87,7 @@ li {
 }
 
 .mdx.prose :where(h1, h2, h3, h4):hover {
-  color: #d23669;
+  color: #ad5774;
 }
 
 /* Custom Heading Style for Projects */
