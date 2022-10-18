@@ -1,6 +1,8 @@
 @font-face {
-  font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1665051867141') format('truetype');
+  font-family: "iconfont"; /* Project id 3713992 */
+  src: url('iconfont.woff2?t=1666086644277') format('woff2'),
+       url('iconfont.woff?t=1666086644277') format('woff'),
+       url('iconfont.ttf?t=1666086644277') format('truetype');
 }
 
 .iconfont {
@@ -11,23 +13,31 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-sun:before {
+  content: "\e64c";
+}
+
+.icon-moon:before {
+  content: "\e866";
+}
+
 .icon-zhongyingwen:before {
   content: "\e7a3";
 }
 
-.icon-sun:before {
-  content: "\e7ad";
-}
-
-.icon-moon:before {
-  content: "\e821";
+.icon-github:before {
+  content: "\e7a5";
 }
 
 .icon-rss:before {
   content: "\e854";
 }
 
-.icon-github:before {
-  content: "\e680";
+.icon-yin-yang:before {
+  content: "\e670";
+}
+
+.icon-Dmoxingx:before {
+  content: "\e62a";
 }
 
