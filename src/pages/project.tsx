@@ -63,7 +63,7 @@ const Project: NextPage = () => {
             styles.wrapper
           )}
         >
-          <div className={classNames(styles.title, 'my-4')}>
+          <div className={classNames(styles.title, 'my-4')} data-fade="1">
             <div className="text-[2rem] mb:text-[1.5rem]">
               一些不怎么样的 <span className="text-[#d23669]">臆想</span>？
             </div>
@@ -71,7 +71,7 @@ const Project: NextPage = () => {
               I wish the world would be peaceful.
             </p>
           </div>
-          <ul className="flex flex-wrap" data-fade="1">
+          <ul className="flex flex-wrap" data-fade="2">
             {project.map((e, idx) => (
               <li className={styles.box} key={e.title + idx}>
                 <UnstyledLink href={e?.url}>

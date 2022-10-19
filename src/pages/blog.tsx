@@ -33,7 +33,7 @@ export default function IndexPage({
           <ul className="grid gap-6 " data-fade="1">
             {posts.length > 0 ? (
               posts.map((post, index) => (
-                <li key={post.slug}>
+                <li key={post.slug} data-fade={index}>
                   {!isSameYear(
                     post.publishedAt,
                     posts[index - 1]?.publishedAt
