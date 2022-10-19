@@ -12,7 +12,7 @@ const Project: NextPage = () => {
   return (
     <Layout>
       <Seo
-        templateTitle="Blog"
+        templateTitle="集 & Project"
         description="Thoughts, mental models, and tutorials about front-end development. Rebuild your mental model so front-end development can be predictable."
       />
       <main>

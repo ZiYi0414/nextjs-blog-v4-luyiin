@@ -13,6 +13,7 @@
   font-size: 8em;
   font-weight: bold;
   pointer-events: none;
+  @apply mb:left-0
 }
 .blog_card {
   font-family: 'Merriweather', 'Georgia', serif;
@@ -22,6 +23,7 @@
     margin-left: -1em;
     font-size: 1.2em;
     color: #d23669;
+    @apply mb:ml-0
   }
 }
 .blog_card:hover {

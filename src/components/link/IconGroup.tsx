@@ -12,7 +12,7 @@ export default function IconGroup() {
   };
   return (
     <div>
-      <div className="mx-8 flex h-[60px] items-center justify-between leading-[60px]">
+      <div className="mx-8 flex h-[60px] items-center justify-between leading-[60px] mb:mx-0">
         <span
           onClick={handleChangeLang}
           className="iconfont icon-zhongyingwen cursor-pointer mr-4"

@@ -23,7 +23,7 @@ export default function IndexPage({
   return (
     <Layout>
       <Seo
-        templateTitle="Blog"
+        templateTitle="录 & Blog"
         description="Thoughts, mental models, and tutorials about front-end development. Rebuild your mental model so front-end development can be predictable."
       />
       <main>

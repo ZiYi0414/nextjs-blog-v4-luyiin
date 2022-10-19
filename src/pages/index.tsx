@@ -14,7 +14,7 @@ const Home: NextPage = () => {
 
   return (
     <Layout>
-      <Seo templateTitle="ME" />
+      <Seo templateTitle="述 & ME" />
       <section className={classNames(isLoaded && 'fade-in-start')}>
         <div className="prose px7 py-10 m-auto" data-fade="1">
           {lang === 'en' ? (
@@ -34,7 +34,9 @@ const Home: NextPage = () => {
               </article>
             </div>
           ) : (
-            <div className={classNames('mb-10', styles.prose_zh)}>
+            <div
+              className={classNames('mb-10 mb:text-[10px]', styles.prose_zh)}
+            >
               <h1>艺呀學語，學步蹣跚</h1>
               <article>
                 <p>做一些喜欢的事吧。</p>
@@ -43,10 +45,10 @@ const Home: NextPage = () => {
                 <p>—————————</p>
                 <p>今天又失眠了？</p>
                 <p>—————————</p>
-                <p>「 地铁NFC失灵狂魔 」</p>
-                <p>———————————————————</p>
-                <p>「 只要你开口，我们就能飞向云端 」</p>
-                <p>———————————————————</p>
+                <p className="mb:!hidden">「 地铁NFC失灵狂魔 」</p>
+                <p className="mb:!hidden">———————————————————</p>
+                <p className="mb:!hidden">「 只要你开口，我们就能飞向云端 」</p>
+                <p className="mb:!hidden">———————————————————</p>
                 <p>不知道整天在想些什么。</p>
                 <p>———————————</p>
                 <p>极简主义，《ラタムニカ》🌸。</p>
