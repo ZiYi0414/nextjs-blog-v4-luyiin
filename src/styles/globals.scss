@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/* autoprefixer: on */
 html,
 body {
   padding: 0;
@@ -37,7 +37,15 @@ a {
 .article {
   font-family: 'Merriweather', 'Georgia', serif;
 }
-
+/* 不超过两行文字 */
+.truncate-one {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  /* CSS -webkit-box-orient: vertical属性编译后丢失问题 */
+  -webkit-box-orient: vertical;
+}
 :root {
   --text-color: #34495e;
   --h-color: #d23669;
@@ -129,8 +137,6 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--c-scrollbar-hover);
 }
-
-
 
 .typing-demo {
   font-family: 'Merriweather', 'Georgia', serif;

@@ -6,9 +6,72 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "700851",
+      "name": "太极",
+      "font_class": "taiji",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "1821505",
+      "name": "css",
+      "font_class": "css",
+      "unicode": "e6d5",
+      "unicode_decimal": 59093
+    },
+    {
+      "icon_id": "11372706",
+      "name": "搜索",
+      "font_class": "sousuo",
+      "unicode": "e8b9",
+      "unicode_decimal": 59577
+    },
+    {
+      "icon_id": "12658996",
+      "name": "八卦",
+      "font_class": "bagua",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "14151871",
+      "name": "音乐",
+      "font_class": "yinle",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "15378279",
+      "name": "css3",
+      "font_class": "css3",
+      "unicode": "eb76",
+      "unicode_decimal": 60278
+    },
+    {
+      "icon_id": "15825162",
+      "name": "太极",
+      "font_class": "taiji1",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "17448314",
+      "name": "梦境",
+      "font_class": "mengjing",
+      "unicode": "e6ac",
+      "unicode_decimal": 59052
+    },
+    {
+      "icon_id": "18169510",
+      "name": "键盘,打字",
+      "font_class": "keyborad-full",
+      "unicode": "e91c",
+      "unicode_decimal": 59676
+    },
+    {
       "icon_id": "5226641",
       "name": "sun",
-      "font_class": "sun1",
+      "font_class": "sun",
       "unicode": "e64c",
       "unicode_decimal": 58956
     },
