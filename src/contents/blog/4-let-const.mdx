@@ -1,0 +1,89 @@
+---
+title: 'let&const 暂时性死区与变量提升'
+description: '学习ES6变量类型的记录，一篇基础的笔记。'
+publishedAt: '2020-04-05'
+tags: 'Note'
+---
+
+## 变量提升&暂时性死区
+
+- var 命令会发生“变量提升”现象，即变量可以在声明之前使用，值为 undefined。
+- 按照一般的逻辑，变量应该在声明语句之后才可以使用。
+
+### var :
+
+经过**_var 表达式声明的变量_**会被挂在到 running execution context(执行上下文)的 VariableEnvironment(变量环境)上，var 声明的变量会在包含他们的 Environment Record**_实例化的过程中被声明并赋值为 undefined_**。在相同的 VariableEnvironment 作用域中，对同一个变量的多次声明仅会定义一个 var 变量。一个通过 VariableDeclaration 声明的带有初始值的变量，**_它的赋值表达式会在 VariableDeclaration 的执行阶段被执行，而不是在创建阶段。_**
+
+### let :
+
+通过**_let 和 const 定义的变量_**会被挂在到 running execution context(执行上下文)的 LexicalEnvironment(词法环境)上，变量会在他们的 Environment Record**_实例化的阶段被创建，但是直到变量的语法声明代码被执行之前，他们都是不可被访问的_**。变量声明时可以携带一个初始值，但是赋值过程将在执行阶段进行，如果没有初始值，则为 undefined。
+
+从以上 TC39 的定义中我们可以知道，所谓的变量提升是指 js 在编译过程中的词法分析阶段就已经分析出当前作用域内的相关变量，并且在词法分析阶段就把他们挂载到了 LexicalEnvironment 或 VariableEnvironment 上。所以不管是 let，const 还是 var 声明的变量都存在变量提升的过程，只不过 let 和 const 定义的变量在执行之前是不可访问的而已。
+
+### 这俩都是 Environment Record 的具体实现，他们之间的区别我也弄得不是很懂，暂时只知道 var 声明的变量会被挂载到 VariableEnvironment 内，其余的都是在 LexicalEnvironment 中。
+
+## 暂时性死区
+
+只要块级作用域内存在 let 命令，它所声明的变量就“绑定”（binding）这个区域，不再受外部的影响。
+
+```JavaScript
+var tmp = 123;
+
+if (true) {
+  tmp = 'abc'; // ReferenceError
+  let tmp;
+}
+```
+
+上面代码中，存在全局变量 tmp，但是块级作用域内 let 又声明了一个局部变量 tmp，导致后者绑定这个块级作用域，所以在 let 声明变量前，对 tmp 赋值会报错。
+
+ES6 明确规定，如果区块中存在 let 和 const 命令，这个区块对这些命令声明的变量，从一开始就形成了封闭作用域。凡是在声明之前就使用这些变量，就会报错。
+
+总之，在代码块内，使用 let 命令声明变量之前，该变量都是不可用的。这在语法上，称为“暂时性死区”（temporal dead zone，简称 TDZ）。
+
+```JavaScript
+if (true) {
+  // TDZ开始
+  tmp = 'abc'; // ReferenceError
+  console.log(tmp); // ReferenceError
+
+  let tmp; // TDZ结束
+  console.log(tmp); // undefined
+
+  tmp = 123;
+  console.log(tmp); // 123
+}
+```
+
+#### 有些“死区”比较隐蔽，不太容易发现。
+
+```JavaScript
+function bar(x = y, y = 2) {
+  return [x, y];
+}
+
+bar(); // 报错 在y声明前使用了y
+
+function bar(x = 2, y = x) {
+  return [x, y];
+}
+bar(); // [2, 2] 在x声明后使用x
+
+```
+
+#### 另外，下面的代码也会报错，与 var 的行为不同。
+
+```JavaScript
+// 不报错
+var x = x;
+
+// 报错
+let x = x;
+// ReferenceError: x is not defined
+```
+
+使用 let 声明变量时，只要在未声明完成时使用变量都将不被允许！😉
+
+ES6 规定暂时性死区和 let、const 语句不出现变量提升，主要是为了减少运行时错误，防止在变量声明前就使用这个变量，从而导致意料之外的行为。这样的错误在 ES5 是很常见的，现在有了这种规定，避免此类错误就很容易了。
+
+总之，暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现，才可以获取和使用该变量。

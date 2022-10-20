@@ -21,7 +21,7 @@ http://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascr
 /* Scrollbars */
 
 :root {
-  --code_bg: #282a36;
+  --code_bg: #1C1C1C;
   --comment: #6272a4;
   --code_fore: #f8f8f2;
   --selection: #44475a;
@@ -207,7 +207,7 @@ pre[class*='language-'] {
 
 pre[class*='language-'] {
   background: var(--code_bg);
-  border-radius: 0.5em;
+  border-radius: 3px;
   padding: 1em;
   margin: 0.5em 0;
   overflow: auto;

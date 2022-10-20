@@ -1,0 +1,65 @@
+---
+title: '::after和::before伪元素到底怎么用？'
+description: '讲一讲我对after和before伪元素的应用和理解。'
+publishedAt: '2022-02-10'
+tags: 'share'
+---
+
+先说一说为什么 css 要引入伪元素和伪类，[以下是 css2.1 Selectors 章节中对伪类与伪元素的描述](https://www.w3.org/TR/CSS2/selector.html#pseudo-elements)：
+CSS introduces the concepts of pseudo-elements and pseudo-classes to permit formatting based on information that lies outside the document tree.
+
+简而言之意思就是css引入伪类和伪元素概念是为了格式化文档树以外的信息。也就是说，伪类和伪元素是用来修饰不在文档树中的部分，比如，一句话中的第一个字母，或者是列表中的第一个元素。下面分别对伪类和伪元素进行解释。
+
+再精炼一下就是 `文档以外`，什么好处？
+
+可以在实现同等样式效果的前提下，减少很多没有实际内容的dom元素。
+
+所以我理解的使用场景有如下几个特点：
+
+- 文字前后的`图案`
+通常遇到这种情况为了达到实现的效果肯定会在文档中加入新的dom从而达到效果。
+```html
+  <div>
+    <span class="图案"></span>
+    <span >哈哈哈，我是文案，balbala..</span>
+    <span class="图案2"></span>
+  </div>
+```
+
+但我们加入伪类的运用呢？可以减少很多不明意义的dom出现，也能缩减后期维护代码的成本。
+```html
+  <div>
+    <span class="内容">哈哈哈！我怎么这么清爽～</span>
+  </div>
+```
+
+```css
+.内容 {
+  position: relative; //保证伪元素的定位是相对自身来调整
+  xxxx...
+}
+// 内容前的样式
+.内容::before {
+  content: '';
+  position: absolute;
+  xxxx // 位置信息 上下左右
+  width: xx;
+  height: xx;
+  background: xx...
+  // 等等样式 随你所想.
+}
+// 内容后的样式
+.内容::after {
+  content: '';
+  position: absolute;
+  xxxx // 位置信息 上下左右
+  width: xx;
+  height: xx;
+  background: xx...
+  // 等等样式 随你所想.
+}
+```
+
+这样文档就可以使文档更清晰，缩减jsx或者html文件行数～
+
+关于这两个伪元素的用法还有非常非常多，花样也非常多。比如搭配:hover等伪类的使用等等！

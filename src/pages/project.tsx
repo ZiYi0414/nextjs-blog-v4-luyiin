@@ -18,7 +18,7 @@ const Project: NextPage = () => {
           style={{ fontSize: 38 }}
         ></span>
       ),
-      desc: '瞎折腾，一个自己的3D形象.小萌新..',
+      desc: '随便玩玩，一个自己的3D形象.',
       tag: ['React', 'Lingo3D', 'Blender'],
       github: '',
       url: 'https://mine.nopatience.cn/'
