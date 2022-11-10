@@ -2,10 +2,12 @@ import * as React from 'react';
 
 import Layout from '@/components/layout/Layout';
 import Link from 'next/link';
+import Seo from 'Seo';
 
 export default function NotFoundPage() {
   return (
     <Layout>
+      <Seo templateTitle="404" />
       <main>
         <section className="flex justify-center items-center flex-col h-[70vh]">
           {/* eslint-disable-next-line react/no-unescaped-entities */}
