@@ -6,7 +6,8 @@
     "dev": "next dev -p 4140",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "next-sitemap --config next-sitemap.config.js"
   },
   "dependencies": {
     "autoprefixer": "^10.4.12",

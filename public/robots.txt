@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://luyiin.me
+
+# Sitemaps
+Sitemap: https://luyiin.me/sitemap.xml

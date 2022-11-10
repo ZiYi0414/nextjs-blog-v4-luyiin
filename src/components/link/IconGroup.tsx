@@ -27,7 +27,10 @@ export default function IconGroup() {
         <UnstyledLink href="https://github.com/ZiYi0414">
           <span className="iconfont icon-github mr-4 cursor-pointer" />
         </UnstyledLink>
-        <span className="iconfont icon-rss cursor-pointer" />
+
+        <UnstyledLink href="/sitemap-0.xml">
+          <span className="iconfont icon-rss cursor-pointer" />
+        </UnstyledLink>
       </div>
     </div>
   );
