@@ -21,12 +21,12 @@ http://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascr
 /* Scrollbars */
 
 :root {
-  --code_bg: #1C1C1C;
+  --code_bg: #1c1c1c;
   --comment: #6272a4;
   --code_fore: #f8f8f2;
   --selection: #44475a;
   --cyan: #8be9fd;
-  --green: #50fa7b;
+  --green: #bd93f9;
   --orange: #ffb86c;
   --pink: #ff79c6;
   --purple: #bd93f9;
@@ -184,8 +184,8 @@ pre[class*='language-'] {
   color: var(--code_fore);
   background: var(--code_bg);
   text-shadow: none;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    'Liberation Mono', 'Courier New', monospace;
+  font-family: Consolas, Menlo, Monaco, source-code-pro, Courier New, monospace;
+  font-feature-settings: normal;
   text-align: left;
   white-space: pre;
   word-spacing: normal;
