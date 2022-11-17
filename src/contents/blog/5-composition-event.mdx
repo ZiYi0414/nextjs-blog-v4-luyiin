@@ -2,7 +2,7 @@
 title: 'composition event 🤔'
 description: '使用Ant Design的Select搜索框，监听composition，输入结束后再搜索。'
 publishedAt: '2020-07-21'
-tags: 'share'
+tags: 'Share'
 ---
 
 中文输入法（包括 CJK 输入法）都有的问题：如果`<input>`上监听[input 事件](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/input_event)，在 Win/Mac 上每次按键都会触发。例如用拼音输入法输入动漫驿站，用户可能按键 d.o.n.g.m.a…会触发 13 次事件，但其实只需要触发一次处理输入后的结果。早年间有很多 trick 的做法，比如 keyup 判断输入框内容是否是中文。现在是可以放心使用[composition 事件](https://developer.mozilla.org/en-US/docs/Web/API/Element/compositionstart_event)了。

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Luyiin Blog</title>
+        <link>https://luyiin.me</link>
+        <description>Luyiin Blog rss feed</description>
+        <lastBuildDate>Thu, 10 Nov 2022 14:33:09 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>zh</language>
+        <copyright>©Luyiin</copyright>
+    </channel>
+</rss>
