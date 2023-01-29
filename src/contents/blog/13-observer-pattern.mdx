@@ -1,0 +1,193 @@
+---
+title: '观察者模式应用-Observer Pattern'
+description: '对观察者模式在JavaScript中应用的学习笔记，顺便实现了🐮🐎主播关注系统！'
+publishedAt: '2022-05-14'
+tags: 'Note'
+---
+
+## 观察者模式 Observer Pattern
+
+使用被观察对象在发生事件或 balabala..的时候通知订阅者，也就是`观察者`观察`被观察者`。
+
+Use `observables` to notify `subscribers` when an event occurs
+
+使用`Observer Pattern`，我们可以将一些对象`观察者`订阅到其他对象`可观察`对象。每当事件发生，所有`被观察`，或称为`可观察`的对象都会通知所有已经订阅的对象`观察者`
+
+<hr style={{ margin: '15px auto' }} />
+
+一个可观察的对象通常包含 3 个重要部分：👇
+
+- `observers`: 一组观察者，当定义的事件发生将得到通知 (家人们)
+- `subscribe()`: 一个将观察者添加到订阅列表中的方法 （关注主播不迷路）
+- `unsubscribe()`: 一个将观察者从订阅列表中删除的方法 (取关！)
+- `notify()`: 一个在定义事件发生通知所有观察者的方法 (推送！)
+
+Perfect, lets create an observable! An ez way of creating one, is by using an ES6 class.
+
+牛掰，现在搞一个 🐮🐎 主播关注系统玩玩，当然是使用我最爱的 JS 了 😄。mmp
+
+```JS
+class Observable {
+  constructor() {
+    // 一组家人列表
+    this.observers = []
+  }
+
+  subscribe(func) {
+    // 点点关注，关注主播不迷路了嗷老铁。
+    this.observers.push(func)
+  }
+
+  unsubscribe(func) {
+    // 这主播也太腊鸡了，取关了。
+    this.observers = this.observers.filter( observer => observer !== func)
+  }
+
+  notify(data) {
+    // 家人们，开播了，今天依旧是秘制...包
+    this.observers.forEach(observer => observer(data))
+  }
+}
+
+```
+
+Awesome!，亏贼。 我超，完美。现在已经实现了基本的关注和取消功能，以及主播开播通知功能了哈。
+
+那么好，接下来把他介入到我们的牛马直播页面里吧。（当然，只有一个按钮和消息通知组件）
+
+```JS
+export default function App() {
+  retrun (
+    <div classNam="App">
+      <Button>关注了嗷</Button>
+      <Button>取关取关！</Button>
+      // 别问为啥是两个按钮哈。我锤你哦😄
+    </div>
+  )
+}
+
+```
+
+接下来咋办呢，家人们进到直播间，发现 🐮 马主播有点意思点关注了！
+
+我们想要跟踪 `用户` 与应用的交互。当用户点击关注，我们希望用时间戳记录该事件，除了记录这件事，我们需要在公屏上显示出来有家人点关注了！
+
+ok 那么在之前的基础之上加上关注的方法和公屏通知的方法吧！
+
+```JS
+// 这个是一个虚拟的直播公屏文字组件
+import { Message, message } from 'Message-System'
+
+// 记录关注时间
+const logger =  (data) => {
+  console.log(`${Date.now()} ${data}`)
+}
+
+// 公屏通知！
+const publicNotify = (data) => {
+  message(data)
+}
+
+
+export default function App() {
+  retrun (
+    <div classNam="App">
+      <Button>关注了嗷</Button>
+      <Button>取关取关！</Button>
+      <Message />
+    </div>
+  )
+}
+
+```
+
+好的，现在已经有了关注和通知的能力，但是我们的牛马主播关注系统还没有关联上！
+
+`logger`和 `publicNotify` 函数需要成为观察者，必须让他关注主播啊！ 使用 `subscribe` 关注！
+
+```JS
+import { Message, message } from 'Message-System'
+
+const logger =  (data) => {
+  console.log(`${Date.now()} ${data}`)
+}
+
+const publicNotify = (data) => {
+  message(data)
+}
+
+// 订阅了 家人们
+observable.subscribe(logger)
+observable.subscribe(publicNotify)
+
+export default function App() {
+  retrun (
+    <div classNam="App">
+      <Button>关注了嗷</Button>
+      <Button>取关取关！</Button>
+      <Message />
+    </div>
+  )
+}
+
+```
+
+好，现在每当事件发生的时候，这个函数就会收到通知了！现在我们只需要实现通知 observable 的函数就 ok 了：`handleFocus` 和 `handleCancel`， 然后这些函数的内部调用 `notify` 并传递观察者需要接收的数据就 ok
+
+```JS
+import { Message, message } from 'Message-System'
+
+const logger =  (data) => {
+  console.log(`${Date.now()} ${data}`)
+}
+
+const publicNotify = (data) => {
+  message(data)
+}
+
+// 订阅了 家人们
+observable.subscribe(logger)
+observable.subscribe(publicNotify)
+
+export default function App() {
+ function handleFocus() {
+    observable.notify("家人们 感谢关注了嗷！!");
+  }
+
+  function handleCancel() {
+    observable.notify("没啥意思，取关了!");
+  }
+
+
+  retrun (
+    <div classNam="App">
+      <Button onClick={handleFocus}>关注了嗷</Button>
+      <Button onClick={handleCancel}>取关取关！</Button>
+      <Message />
+    </div>
+  )
+}
+
+```
+
+ok 了！ 全体目光看向我！ 我宣布个事儿。 牛马直播平台的关注通知系统完成了！ 🐷， `handleFocus` 调用 notify 并传入相应的 data， 之后观察者通知订阅者 打印时间并且输出 data， 并且在公屏弹出关注文字！
+
+每当用户点击 `关注` 或是 `取关` ，`logger`和 `publicNotify` 都会进行触发，并且获得不同的 data 执行不同的操作。
+
+哟呵，有人说了。这啥啊，费老劲了。我直接在关注取关的地方调通知组件不行吗？
+
+~~你问我？！ 我月薪 3K 你问我！？~~
+
+## 优点
+
+使用观察者模式可以强制 `关注点分离` 也就是 单一职责原则。观察者对象与被观察者 没有直接联系，可以随时解除耦合。被观察对象只负责监视事件。而观察者直接收处理收到的数据。
+
+Using the observer pattern is a great way to enforce `separation of concerns` and the single-responsiblity principle. The observer objects aren’t tightly coupled to the observable object, and can be (de)coupled at any time. The observable object is responsible for monitoring the events, while the observers simply handle the received data.
+
+## 缺点
+
+如果观察者变得过于复杂，在通知所有订阅的时候会造成一些性能问题。
+
+## References
+
+[Patterns.dev](https://www.patterns.dev/posts/observer-pattern/)
