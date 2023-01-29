@@ -20,15 +20,24 @@ const Home: NextPage = () => {
           {lang === 'en' ? (
             <div className={classNames('mb-10', styles.prose)}>
               {/* eslint-disable-next-line react/no-unescaped-entities */}
-              <h1>Luyiin's</h1>
+              <h1>Luyiin's </h1>
               <article>
                 <p>Em, I am Luyiin, Why is Luyiin. Just i want it.</p>
                 <p>comp sci. cv engineer & visual design enthusiast..</p>
-                <p>Standing on the Shoulders of Giants. Hello，Yours World.</p>
+                <p>Standing on the Shoulders of Giants. Hello, Yours World.</p>
                 <p>
                   Here is my personal website. I usually record some study notes
                   and share some of my own opinions. Occasionally say strange
                   things..
+                </p>
+                <p>
+                  There may not be excellent articles and technical sharing
+                  here, for me this is a small place to express my heart.🌸
+                </p>
+                <p>
+                  A front-end programmer who almost became a car repairman but
+                  loves creative design work. No code, but paint all over the
+                  world in my next life.
                 </p>
                 <p>Do something what i want.. 🥰</p>
               </article>
