@@ -1,0 +1,132 @@
+---
+title: '代理模式应用-Proxy Pattern'
+description: '顺便实现了牛马主播的经纪人接广告系统❤️！'
+publishedAt: '2022-05-17'
+tags: 'Note'
+---
+
+### Proxy pattern
+
+Proxy 这个单词让我毫无原因的感觉很喜欢，很帅气。
+
+Intercept and control interactions to target objects
+
+拦截和控制与目标对象的交互。
+
+With a Proxy object, we get more control over the interactions with certain objects. A proxy object can determine the behavior whenever we're interacting with the object, for example when we're getting a value, or setting a value.
+
+翻译翻译
+
+使用代理对象，可以更好的控制与某些对象的交互。代理对象可以在我们与对象交互时确定一些行为，例如，当获取一个值或设置一个值的时候。
+
+翻译翻译！！
+
+牛马主播人气火爆准备带货，但是他无法鉴别哪些是骗子，哪些是正经合作。所以他找来一个经验丰富的职业经纪人，代理他与合作商谈合作。同时也节省了很多时间，让牛马主播可以赚更多的米。。。
+
+Generally speaking, a proxy means a stand-in for someone else. Instead of speaking to that person directly, you'll speak to the proxy person who will represent the person you were trying to reach. The same happens in JavaScript: instead of interacting with the target object directly, we'll interact with the Proxy object.
+
+一般来说，在 `JavaScript` 中与对象的交互基本都是直接操作的。但这次我们将与代理对象进行交互，而不是直接与目标对象进行交互。
+
+好，现在我们创建一个 `steamer` 代表 牛马主播的对象。
+
+```JavaScript
+
+const steamer = {
+  name: '牛马',
+  age: '32',
+  nationality: 'CN',
+  type: '美食家'
+}
+
+```
+
+现在不想与这个对象直接交互，而是想与代理对象交互。 在 JavaScript 中，我们可以通过创建一个新的 `Proxy`。
+
+```JavaScript
+
+const steamer = {
+  name: '牛马',
+  age: '32',
+  nationality: 'CN',
+  type: '美食家'
+}
+
+// 职业经纪人
+const steamerProxy = new Proxy(steamer, {})
+
+```
+
+第二个参数是表示 `处理程序的对象`。 在处理程序对象中，我们可以根据交互类型定义特定的行为，详情参考[Proxy 指南](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)，但最常见的两个是 `get` 和 `set`：
+
+- `get`：在访问属性时被调用
+- `set`：在修改属性时被调用
+
+现在我们给 `steamerProxy` 经纪人添加一些我们主播自己的规则，例如主播改名字了，通知所有家人们。新粉丝想获取主播的信息，主播个性化自我介绍模版！这些功能。
+
+```JavaScript
+
+const steamerProxy = new Proxy(steamer, {
+  get: (obj, prop) => {
+    console.log(`我现在的 ${prop} 是 ${obj[prop]} ！`);
+  },
+  set: (obj, prop, value) => {
+    console.log(`家人们我的 ${prop} 从 ${obj[prop]} 改成 ${value} 了！`);
+    obj[prop] = value;
+  }
+});
+
+```
+
+完美。
+
+现在访问该主播的 `name`属性时，Proxy 经纪人给出了更好的回答！：` 我现在的 name 是 牛马 ！`。
+
+修改 `age` 属性，Proxy 返回了原来的值和最新的值！：`家人们我的 age 从 32 改成 18 了！`。
+
+<hr />
+
+代理也可用于添加 **验证**。比如不能够将 `steamer`的年龄改为字符串，或者不能为空。或者，如果粉丝妄图查找一些没有的绯闻
+，我们应该让用户知道并没有这些属性。
+
+```JavaScript
+
+const steamerProxy = new Proxy(steamer, {
+  get: (obj, prop) => {
+    if (!obj[prop]) {
+      console.log('别找了！别找了！ 那都是绯闻！');
+    } else {
+      console.log(`我现在的 ${prop} 是 ${obj[prop]} ！`);
+    }
+  },
+  set: (obj, prop, value) => {
+    if (prop === "age" && typeof value !== "number") {
+      console.log(`哎哟你干嘛！年龄只能是数字啦`);
+    } else if (prop === "name" && value.length < 2) {
+      console.log(`哎哟，你的名字太短了啊.`);
+    } else {
+      console.log(`家人们我的 ${prop} 从 ${obj[prop]} 改成 ${value} 了！`);
+      obj[prop] = value;
+    }
+  }
+});
+
+```
+
+Proxy 经纪人 确保我们没有修改`steamer`带有错误值的对象，这有助于我们保持数据的纯净！
+
+<hr />
+
+代理是添加对对象行为的控制的强大方式。代理可以有多种用例：它可以帮助验证、格式化、通知或调试。
+
+过度使用 `Proxy` 对象或对每个方法调用执行繁重的操作 `handler` 很容易对应用程序的性能产生负面影响。最好不要对性能关键代码使用代理。
+
+Proxies are a powerful way to add control over the behavior of an object. A proxy can have various use-cases: it can help with validation, formatting, notifications, or debugging.
+
+Overusing the `Proxy` object or performing heavy operations on each `handler` method invocation can easily affect the performance of your application negatively. It's best to not use proxies for performance-critical code.
+
+<hr />
+
+### 参考
+
+- [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) - MDN
+- [Patterns.dev](https://www.patterns.dev/posts/proxy-pattern/)
