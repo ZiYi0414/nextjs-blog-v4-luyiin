@@ -3,8 +3,8 @@ li {
   margin-bottom: 1rem;
   line-height: 2;
 }
-.prose p{
-  @apply dark:text-[#e5e7eb]
+.prose p {
+  @apply dark:text-[#e5e7eb];
 }
 
 .shadow {
@@ -122,4 +122,11 @@ li {
 .hash-anchor:after {
   @apply invisible absolute -right-5 top-1/2 -translate-y-1/2 text-lg text-primary-400 dark:text-primary-300;
   content: '#';
+}
+
+.prose hr {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  color: #eee;
+  background: #eee;
 }
