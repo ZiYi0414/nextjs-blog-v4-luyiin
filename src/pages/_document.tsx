@@ -30,6 +30,7 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           {/* <script dangerouslySetInnerHTML={MyDocument.getAnalyticsTag()} /> */}
+          <meta name="baidu-site-verification" content="codeva-Ita5vaP38t" />
           <link
             rel="stylesheet"
             href="https://fonts.googlefonts.cn/css?family=Comfortaa"
