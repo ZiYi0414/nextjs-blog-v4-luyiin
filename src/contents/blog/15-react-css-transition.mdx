@@ -1,0 +1,456 @@
+---
+title: 'React动画组件实现 Transition CSSTransition'
+description: 'React Transition CSSTransition 组件简单实现'
+publishedAt: '2023-02-11'
+tags: 'Note'
+---
+
+### React 动画组件实现
+
+学习了 `react-transition-group` 源码之后，复现了一个 `Transition`组件
+
+实现动画的核心逻辑其实很简单：根据状态的变化，利用 `setTimeout` 设置不同的 class，来实现组件的移动
+
+核心状态有四个： 退出完成 `EXITED`、 进入中 `ENTERING`、 进入完成 `ENTERED`、 退出中 `EXITING`。利用不同状态切换不同 class，即可实现对应状态下的动画效果。
+
+而具体需要操作的 dom,可以直接由 `nodeRef` 传如 `dom的ref` 即可。
+
+代码如下：
+
+```JavaScript
+import React, { useCallback, useEffect, useState } from 'react'
+
+// 强制回流，在此之前修改了dom的className, 此处触发了一次读取属性，来强制浏览器回流
+const forceReflow = (node) => node.scrollTop
+
+function noop() { }
+
+export const UNMOUNTED = 'unmounted'
+export const EXITED = 'exited'
+export const ENTERING = 'entering'
+export const ENTERED = 'entered'
+export const EXITING = 'exiting'
+
+const Transition = ({
+  children,
+  in: _in = false,
+  mountOnEnter: _mountOnEnter = false,
+  unmountOnExit: _unmountOnExit = false,
+  appear: _appear = false,
+  timeout: _timeout,
+  onEnter: _onEnter = noop,
+  onEntering: _onEntering = noop,
+  onEntered: _onEntered = noop,
+  onExit: _onExit = noop,
+  onExiting: _onExiting = noop,
+  onExited: _onExited = noop,
+  nodeRef: _nodeRef,
+  ...childProps
+}) => {
+
+
+  const [status, setStatus] = useState(() => {
+    let initialStatus
+    if (_in) {
+      if (_appear) {
+        initialStatus = EXITED
+      } else {
+        initialStatus = ENTERED
+      }
+    } else {
+      if (_unmountOnExit || _mountOnEnter) {
+        initialStatus = UNMOUNTED
+      } else {
+        initialStatus = EXITED
+      }
+    }
+    return initialStatus
+  })
+
+  const timeouts = (() => {
+    let exit, enter, appear
+
+    exit = enter = appear = _timeout
+
+    if (_timeout != null && typeof _timeout !== 'number') {
+      exit = _timeout.exit
+      enter = _timeout.enter
+      appear = _timeout.appear !== undefined ? _timeout.appear : enter
+    }
+    return { exit, enter, appear }
+  })()
+
+  const performEnter = useCallback(() => {
+    const [maybeNode, maybeAppearing] = [undefined]
+
+    _onEnter(maybeNode, maybeAppearing)
+
+    setStatus(ENTERING)
+    setTimeout(() => {
+      _onEntering(maybeNode, maybeAppearing)
+      setTimeout(() => {
+        setStatus(ENTERED)
+        setTimeout(() => {
+          _onEntered(maybeNode, maybeAppearing)
+        })
+      }, timeouts.enter)
+    })
+  }, [_onEnter, _onEntering, _onEntered, timeouts])
+
+  const performExit = useCallback(() => {
+    const maybeNode = undefined
+
+    _onExit(maybeNode)
+
+    setStatus(EXITING)
+    setTimeout(() => {
+      _onExiting(maybeNode)
+      setTimeout(() => {
+        setStatus(EXITED)
+        setTimeout(() => {
+          _onExited(maybeNode)
+        })
+      }, timeouts.exit)
+    })
+  }, [_onExit, _onExiting, _onExited, timeouts])
+
+  const updateStatus = useCallback((nextStatus) => {
+    if (nextStatus !== null) {
+      if (nextStatus === ENTERING) {
+        if (_unmountOnExit || _mountOnEnter) {
+          const node = _nodeRef.current
+          if (node) forceReflow(node)
+        }
+        performEnter()
+      } else {
+        performExit()
+      }
+    } else if (_unmountOnExit && status === EXITED) {
+      setStatus(UNMOUNTED)
+    }
+  }, [_unmountOnExit, _mountOnEnter, _nodeRef, status, performEnter, performExit])
+
+  useEffect(() => {
+    console.log(status)
+    let nextStatus = null
+    if (_in) {
+      if (status !== ENTERING && status !== ENTERED) {
+        nextStatus = ENTERING
+      }
+    } else {
+      if (status === ENTERING || status === ENTERED) {
+        nextStatus = EXITING
+      }
+    }
+    updateStatus(nextStatus)
+    if (_in && status === UNMOUNTED) {
+      setStatus(EXITED)
+    }
+  }, [_in, status, updateStatus])
+
+
+  if (status === UNMOUNTED) {
+    return null
+  }
+
+  return (
+    <>
+      {typeof children === 'function'
+        ? children(status, childProps)
+        : React.cloneElement(React.Children.only(children), childProps)}
+    </>
+  )
+}
+
+export default Transition
+```
+
+调用测试如下：
+
+```JavaScript
+import React, { useRef, useState } from "react"
+import Transition from './Transition'
+
+const defaultStyle = {
+  transition: `opacity 300ms ease-in-out`,
+  opacity: 0
+}
+
+const transitionStyles = {
+  entering: { opacity: 1 },
+  entered: { opacity: 1 },
+  exiting: { opacity: 0 },
+  exited: { opacity: 0 },
+}
+
+function Tdemo() {
+  const [inProp, setInProp] = useState(false)
+  const nodeRef = useRef(null)
+  return (
+    <div>
+      <Transition nodeRef={nodeRef} in={inProp} timeout={300}>
+        {state => (
+          <div ref={nodeRef} style={{
+            ...defaultStyle,
+            ...transitionStyles[state]
+          }}>
+            I'm a fade Transition!
+          </div>
+        )}
+      </Transition>
+      <button onClick={() => setInProp(state => !state)}>
+        模拟T Click to Enter\leave
+      </button>
+    </div>
+  )
+}
+```
+
+复现了 `Transition` 组件后，继续复现 `CSSTransition`,来实现通过 class 控制动画功能
+
+实现 `onEnter` 、 `onEntering` 、 `onEntered` 、 `onExit` 、 `onExiting` 、`onExited` ，来分别控制 dom 的 className。
+
+### 此处注意一个细节：
+
+为了让动画能够正确的渲染，我们需要使用强制回流的技巧。
+
+假设我们的 css 动画是：
+
+```CSS
+.alert-enter {
+  transform: translateX(100%);
+}
+.alert-enter-active {
+  transform: translateX(0);
+  transition: transform 300ms;
+}
+使用js去编
+```
+
+使用 js 去编辑 className 时，就需要强制回流来触发动画
+
+```JavaScript
+  const dom = document.querySelector('.alert-enter-done')
+  dom.className='alert-enter'
+  dom.scrollTop  // 此处的读取属性，便触发了浏览器的回流。
+  dom.className='alert-enter alert-enter-active' // 再次添加active便可以出发动画
+
+```
+
+> 上述示例中，如果删除 `dom.scrollTop` ，便不会触发动画行为了。
+
+CSSTransition 代码如下（Transition 的实现方案在另外一篇）：
+
+```JavaScript
+import React from 'react'
+import addOneClass from 'dom-helpers/addClass'
+import removeOneClass from 'dom-helpers/removeClass'
+import Transition from './Transition'
+
+export const forceReflow = (node) => node.scrollTop
+
+const _addClass = (node, classes) =>
+  node && classes && classes.split(' ').forEach((c) => addOneClass(node, c))
+const _removeClass = (node, classes) =>
+  node && classes && classes.split(' ').forEach((c) => removeOneClass(node, c))
+
+function CSSTransition({ classNames = "", ...props }) {
+  const appliedClasses = {
+    appear: {},
+    enter: {},
+    exit: {},
+  }
+
+  const onEnter = (maybeNode, maybeAppearing) => {
+    const [node, appearing] = resolveArguments(maybeNode, maybeAppearing)
+    removeClasses(node, 'exit')
+    addClass(node, appearing ? 'appear' : 'enter', 'base')
+    if (props.onEnter) {
+      props.onEnter(maybeNode, maybeAppearing)
+    }
+  }
+
+  const onEntering = (maybeNode, maybeAppearing) => {
+    const [node, appearing] = resolveArguments(maybeNode, maybeAppearing)
+    const type = appearing ? 'appear' : 'enter'
+    addClass(node, type, 'active')
+
+    if (props.onEntering) {
+      props.onEntering(maybeNode, maybeAppearing)
+    }
+  }
+
+  const onEntered = (maybeNode, maybeAppearing) => {
+    const [node, appearing] = resolveArguments(maybeNode, maybeAppearing)
+    const type = appearing ? 'appear' : 'enter'
+    removeClasses(node, type)
+    addClass(node, type, 'done')
+
+    if (props.onEntered) {
+      props.onEntered(maybeNode, maybeAppearing)
+    }
+  }
+
+  const onExit = (maybeNode) => {
+    const [node] = resolveArguments(maybeNode)
+    removeClasses(node, 'appear')
+    removeClasses(node, 'enter')
+    addClass(node, 'exit', 'base')
+
+    if (props.onExit) {
+      props.onExit(maybeNode)
+    }
+  }
+
+  const onExiting = (maybeNode) => {
+    const [node] = resolveArguments(maybeNode)
+    addClass(node, 'exit', 'active')
+
+    if (props.onExiting) {
+      props.onExiting(maybeNode)
+    }
+  }
+
+  const onExited = (maybeNode) => {
+    const [node] = resolveArguments(maybeNode)
+    removeClasses(node, 'exit')
+    addClass(node, 'exit', 'done')
+
+    if (props.onExited) {
+      props.onExited(maybeNode)
+    }
+  }
+
+  const resolveArguments = (maybeNode, _) => [props.nodeRef.current, maybeNode] // 这里 `maybeNode` 实际上是 `appearing`
+
+  const getClassNames = (type) => {
+    const isStringClassNames = typeof classNames === 'string'
+    const prefix = isStringClassNames && classNames ? `${classNames}-` : ''
+
+    let baseClassName = isStringClassNames
+      ? `${prefix}${type}`
+      : classNames[type]
+
+    let activeClassName = isStringClassNames
+      ? `${baseClassName}-active`
+      : classNames[`${type}Active`]
+
+    let doneClassName = isStringClassNames
+      ? `${baseClassName}-done`
+      : classNames[`${type}Done`]
+
+    return {
+      baseClassName,
+      activeClassName,
+      doneClassName,
+    }
+  }
+
+  function addClass(node, type, phase) {
+    let className = getClassNames(type)[`${phase}ClassName`]
+    const { doneClassName } = getClassNames('enter')
+
+    if (type === 'appear' && phase === 'done' && doneClassName) {
+      className += ` ${doneClassName}`
+    }
+
+    if (phase === 'active') {
+      if (node) forceReflow(node)
+    }
+
+    if (className) {
+      appliedClasses[type][phase] = className
+      _addClass(node, className)
+    }
+  }
+
+  function removeClasses(node, type) {
+    const {
+      base: baseClassName,
+      active: activeClassName,
+      done: doneClassName,
+    } = appliedClasses[type]
+
+    appliedClasses[type] = {}
+
+    if (baseClassName) {
+      _removeClass(node, baseClassName)
+    }
+    if (activeClassName) {
+      _removeClass(node, activeClassName)
+    }
+    if (doneClassName) {
+      _removeClass(node, doneClassName)
+    }
+  }
+
+  return (
+    <Transition
+      {...props}
+      onEnter={onEnter}
+      onEntered={onEntered}
+      onEntering={onEntering}
+      onExit={onExit}
+      onExiting={onExiting}
+      onExited={onExited}
+    />
+  )
+}
+
+export default CSSTransition
+
+```
+
+调用测试如下：
+
+```JavaScript
+import React, { useRef, useState } from "react"
+import CSSTranstion from './CSSTranstion'
+import "./style.css"
+
+export default function Example() {
+  const [showMessage, setShowMessage] = useState(false)
+  const nodeRef = useRef(null)
+  return (
+    <div className='box'>
+      <button onClick={() => setShowMessage(show => !show)} >
+        {showMessage ? "Close Message" : "Show Message"}
+      </button>
+      <CSSTranstion
+        in={showMessage}
+        nodeRef={nodeRef}
+        timeout={300}
+        classNames="alert"
+        unmountOnExit
+      >
+        <div ref={nodeRef} onClose={() => setShowMessage(false)} >
+          Animated alert message
+          <p>
+            This alert message is being transitioned in and
+            out of the DOM.
+          </p>
+        </div>
+      </CSSTranstion>
+    </div >
+  )
+}
+```
+
+style.css 如下：
+
+```CSS
+.alert-enter {
+  transform: translateX(100%);
+}
+.alert-enter-active {
+  transform: translateX(0);
+  transition: transform 300ms;
+}
+.alert-exit {
+  transform: translateX(0);
+}
+.alert-exit-active {
+  transform: translateX(-100%);
+  transition: transform 300ms;
+}
+```
