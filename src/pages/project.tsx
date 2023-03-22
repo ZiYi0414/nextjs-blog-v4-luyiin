@@ -6,6 +6,8 @@ import classNames from 'classnames';
 import styles from '../styles/Project.module.scss';
 import UnstyledLink from 'link/UnstyledLink';
 import useLoaded from 'hooks/useLoaded';
+import { GiBigEgg } from 'react-icons/gi';
+import { VscSymbolColor } from 'react-icons/vsc';
 
 const Project: NextPage = () => {
   const isLoaded = useLoaded();
@@ -18,7 +20,7 @@ const Project: NextPage = () => {
           style={{ fontSize: 38 }}
         ></span>
       ),
-      desc: '随便玩玩，一个自己的3D形象.',
+      desc: '随便玩玩，一个自己的3D形象。',
       tag: ['React', 'Lingo3D', 'Blender'],
       github: '',
       url: 'https://mine.nopatience.cn/'
@@ -37,8 +39,8 @@ const Project: NextPage = () => {
       url: ''
     },
     {
-      title: 'Handsome-CSS3-lib',
-      desc: 'Building....',
+      title: 'Handsome-CSS-lib',
+      desc: '完全开源的特效UI组件，纯CSS实现。',
       icon: (
         <span
           className="iconfont icon-css3 font-bold mr-4"
@@ -46,9 +48,25 @@ const Project: NextPage = () => {
         ></span>
       ),
       tag: ['React', 'CSS', 'Ctrl + CV'],
+      github: 'https://github.com/ZiYi0414/handsome-css3-lib',
+      url: 'https://www.handsome-css.com/'
+    },
+    {
+      title: `Luyiin's Web World!`,
+      desc: 'Building....',
+      icon: <GiBigEgg className="mr-4" style={{ fontSize: 38 }}></GiBigEgg>,
+      tag: ['3D', 'Game', 'Animate'],
       github: '',
       url: ''
-    }
+    },
+    {
+      title: `「 画 」 My Gallery`,
+      desc: 'Building....',
+      icon: <VscSymbolColor className="mr-4" style={{ fontSize: 38 }}></VscSymbolColor>,
+      tag: ['乱画', '乱涂', 'Picture'],
+      github: '',
+      url: ''
+    },
   ];
   return (
     <Layout>
